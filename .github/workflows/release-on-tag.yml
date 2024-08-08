@@ -86,7 +86,8 @@ jobs:
 
       - name: Create release zip
         run: |
-          $filesToZip = Get-ChildItem -Recurse -Filter *.exe | Where-Object { $_ -match 'bin\\(Debug|Release)\\[^\\]+\.exe' }
+          $filesToZip = @()
+          $filesToZip += Get-ChildItem -Recurse -Filter *.exe | Where-Object { $_ -match 'bin\\(Debug|Release)\\[^\\]+\.exe' }
           if (Test-Path README.md) {
             $filesToZip += Get-Item README.md
           } else {
