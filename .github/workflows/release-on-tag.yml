@@ -82,7 +82,7 @@ jobs:
 
       - name: Build
         run: |
-          dotnet build --configuration Release ${env:REPO_NAME}.sln
+          dotnet build --configuration Release "${env:REPO_NAME}.sln"
 
       - name: Create release zip
         run: > 
