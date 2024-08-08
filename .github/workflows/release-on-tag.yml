@@ -86,10 +86,14 @@ jobs:
 
       - name: Create release zip
         run: > 
+          $filesToZip = Get-Item *\bin\release\*.exe
+          if (Test-Path README.md) {
+            $filesToZip += Get-Item README.md
+          } else {
+            Write-Host "README.md not found, skipping."
+          }
           Compress-Archive -Force -CompressionLevel Optimal
-          -Path 
-          *\bin\release\*.exe,
-          README.md
+          -Path $filesToZip
           -DestinationPath $env:RELEASE_ZIP
 
       - name: Create Release
