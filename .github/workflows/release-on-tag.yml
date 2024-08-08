@@ -85,16 +85,14 @@ jobs:
           dotnet build --configuration Release "${env:REPO_NAME}.sln"
 
       - name: Create release zip
-        run: > 
+        run: |
           $filesToZip = Get-ChildItem -Recurse -Filter *.exe | Where-Object { $_ -match 'bin\\(Debug|Release)\\[^\\]+\.exe' }
           if (Test-Path README.md) {
             $filesToZip += Get-Item README.md
           } else {
             Write-Host "README.md not found, skipping."
           }
-          Compress-Archive -Force -CompressionLevel Optimal
-          -Path $filesToZip
-          -DestinationPath $env:RELEASE_ZIP
+          Compress-Archive -Force -CompressionLevel Optimal -Path $filesToZip -DestinationPath $env:RELEASE_ZIP
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
