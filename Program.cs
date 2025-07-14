@@ -123,7 +123,7 @@ namespace EditPadToolHelper
 
         public static void CopyDataRemovingWindowsEOF(Stream src, Stream dst)
         {
-            const int BUFSZ = 16;
+            const int BUFSZ = 4096;
             byte[] buf = new byte[BUFSZ];
             byte[] priorBuf = new byte[BUFSZ];
             int priorBufLen = 0;
