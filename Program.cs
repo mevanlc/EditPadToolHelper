@@ -32,6 +32,19 @@ namespace EditPadToolHelper
             string thisCommandLine = Win32.GetCommandLine();
             string targetCommandLine = Win32.GetCommandLineArgs(thisCommandLine);
             string targetCommand = Win32.GetCommandLineCmd(targetCommandLine);
+            if (string.IsNullOrWhiteSpace(targetCommand))
+            {
+                const string usage = "Usage: EditPadToolHelper <command> [args]";
+                try
+                {
+                    MessageBox.Show(usage, "Usage", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch
+                {
+                    Console.Error.WriteLine(usage);
+                }
+                Environment.Exit(1);
+            }
             string targetArgs = Win32.GetCommandLineArgs(targetCommandLine);
 
             Stream helperStdIn = null;
