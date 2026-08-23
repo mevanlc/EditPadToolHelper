@@ -1,17 +1,22 @@
 # EditPadToolHelper
 
-EditPadToolHelper is a command line tool wrapper that works around EditPad's behavior of appending the DOS end-of-file character `^Z` (hex `0x1A`) when piping text to an external tool. Many programs misinterpret this extra byte, so the helper removes it before passing the data along.
+EditPadToolHelper is a tool wrapper that works around EditPad's behavior of appending a final DOS end-of-file byte `^Z` (hex `0x1A`) to the data it pipes to an external tool. Many modern programs misinterpret this extra byte, so the helper removes it before passing the data along. A carefully considered goal is for the program to be transparent: wrapping your program with this program should behave exactly as if launching your program directly, except for the aforementioned `0x1A` fix.
 
 ## Usage
 
-Run the helper followed by the program you want EditPad to call:
+Configure EditPad to call EditPadToolHelper instead of calling your tool directly:
 
 ```console
-EditPadToolHelper.exe <path-to-tool-exe> [tool arguments]
+EditPadToolHelper.exe <path-to-your-tool-exe> [optional arguments to your tool]
 ```
 
-The helper launches the specified tool, shuttles data between EditPad and that tool while stripping the injected `^Z`, and exits with the same code. Any errors encountered are shown in a message box.
+EditPadToolHelper will:
+1. Run your specified executable (along with supplied arguments, if any)
+2. Carefully shuttle data back and forth between EditPad 
+  - This includes stdout, stderr, and stdin
+3. Exits with the same exit code code as the wrapped program. 
+4. Any errors encountered are shown in a GUI message box.
 
 ## Configuration options
 
-There are no options to configure at this time. Future versions may introduce customizable behavior.
+EditPadToolHelper has no configurable behaviors at this time.
